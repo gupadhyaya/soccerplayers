@@ -28898,12 +28898,12 @@
         }
       },
       "links": {},
-      "address": "0xdD704E709220994Be81774A14425f2436e8B6934",
-      "transactionHash": "0x97737f93adcdca591e32045660cf901bddf86b29be905135a60774b313fc392c"
+      "address": "0xa1ED571029FC151B979b537E4F698dd419a7D591",
+      "transactionHash": "0x4cfb6c924e0ba33aeeb7e2b3ade75e6209467a6c8ed13a3cbb944032180e1afe"
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2020-06-20T00:47:09.056Z",
+  "updatedAt": "2020-06-20T01:35:22.013Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
