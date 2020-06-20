@@ -3,6 +3,12 @@ A soccer player crypto game
 
 ## Install instructions
 
+### Requirements 
+
+* nodejs 
+* truffle
+* solidity (solc)
+
 ```
 npm install
 ```
