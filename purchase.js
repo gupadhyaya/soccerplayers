@@ -1,14 +1,11 @@
-var CryptoSoccrToken = artifacts.require("CryptoSoccrToken");
-//test account address, keys under
-//one1793mvw79d8eech2m8xd7uptgxwdd07cnlyde63
-const testAccount = "0xF163B63Bc569F39C5D5b399bEE0568339aD7FB13";
+var SoccerPlayers = artifacts.require("SoccerPlayers");
 
 module.exports = function () {
   async function purchase(id) {
-    let val = 10;
+    let val = 10000000000000000000; // 10 ONEs
     // let price = 30000000000
-    CryptoSoccrToken.defaults({value: val});//, gasPrice: price})
-    let instance = await CryptoSoccrToken.deployed();
+    SoccerPlayers.defaults({value: val});//, gasPrice: price})
+    let instance = await SoccerPlayers.deployed();
     let res = await instance.purchase(id);
     console.log("tx hash:" + res.tx);
     res.logs.forEach(event => {

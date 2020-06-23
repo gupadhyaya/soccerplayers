@@ -1,9 +1,9 @@
-var CryptoSoccrToken = artifacts.require("CryptoSoccrToken");
+var SoccerPlayers = artifacts.require("SoccerPlayers");
 const myAddress = "0xc162199cDaeAa5a82f00651dd4536F5d2d4277C5";
 
 module.exports = function () {
   async function createPlayers() {
-    let instance = await CryptoSoccrToken.deployed();
+    let instance = await SoccerPlayers.deployed();
     let players = [
       "Andrea Pirlo",
       "Diego Maradona",
@@ -16,13 +16,13 @@ module.exports = function () {
       "Johan Cruyff",
       "Andres Iniesta",
     ];
-    for (i = 0; i < players.length; i++) { //players.length
-      let res = await instance.createPromoPlayer(myAddress, players[i], players.length - i, i)
+    for (i = 0; i < 3; i++) { //players.length
+      let res = await instance.createPromoPlayer(myAddress, players[i], 0, i)
       console.log("created player: " + players[i] + ", tx hash: " + res.tx);
     }
   }
   async function display() {
-    let instance = await CryptoSoccrToken.deployed();
+    let instance = await SoccerPlayers.deployed();
     let total = await instance.totalSupply();
     console.log("total players: " + total.toString());
     for (i = 0; i < total; i++) {

@@ -41,6 +41,6 @@ truffle migrate --reset --network testnet
 truffle exec ./test.js --network testnet
 ```
 
-## Credits
+## Disclaimer
 
-Smart contract code of CryptoSoccerToken is adopted from: https://etherscan.io/address/0xc95c0910d39d1f6cd3bd71e4b689660c18172b7b#code 
+This project is sourced from [CryptoSoccerToken](https://etherscan.io/address/0xc95c0910d39d1f6cd3bd71e4b689660c18172b7b#code). We are building it for technology demonstration, and not for commercial purposes.

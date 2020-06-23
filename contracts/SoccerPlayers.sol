@@ -1,76 +1,9 @@
-/**
- *Submitted for verification at Etherscan.io on 2018-02-11
-*/
-
 pragma solidity >=0.4.21 <0.6.0;
 
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
-library SafeMath {
-
-    /**
-    * @dev Multiplies two numbers, throws on overflow.
-    */
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        if (a == 0) {
-            return 0;
-        }
-        uint256 c = a * b;
-        assert(c / a == b);
-        return c;
-    }
-
-    /**
-    * @dev Integer division of two numbers, truncating the quotient.
-    */
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        // assert(b > 0); // Solidity automatically throws when dividing by 0
-        uint256 c = a / b;
-        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-        return c;
-    }
-
-    /**
-    * @dev Substracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
-    */
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        assert(b <= a);
-        return a - b;
-    }
-
-    /**
-    * @dev Adds two numbers, throws on overflow.
-    */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        assert(c >= a);
-        return c;
-    }
-}
-
-contract ERC721 {
-
-    // Required methods
-    function approve(address _to, uint256 _tokenId) public;
-    function balanceOf(address _owner) public view returns (uint256 balance);
-    function implementsERC721() public pure returns (bool);
-    function ownerOf(uint256 _tokenId) public view returns (address addr);
-    function takeOwnership(uint256 _tokenId) public;
-    function totalSupply() public view returns (uint256 total);
-    function transferFrom(address _from, address _to, uint256 _tokenId) public;
-    function transfer(address _to, uint256 _tokenId) public;
-
-    event Transfer(address indexed from, address indexed to, uint256 tokenId);
-    event Approval(address indexed owner, address indexed approved, uint256 tokenId);
-
-    // Optional
-    // function name() public view returns (string name);
-    // function symbol() public view returns (string symbol);
-    // function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256 tokenId);
-    // function tokenMetadata(uint256 _tokenId) public view returns (string infoUrl);
-}
-
-
-contract CryptoSoccrToken is ERC721 {
+contract SoccerPlayers is ERC721 {
 
     /*** EVENTS ***/
 
@@ -78,7 +11,7 @@ contract CryptoSoccrToken is ERC721 {
     event Birth(uint256 tokenId, string name, address owner);
     event Snatch(uint256 tokenId, address oldOwner, address newOwner);
 
-/// @dev The TokenSold event is fired whenever a token is sold.
+    /// @dev The TokenSold event is fired whenever a token is sold.
     event TokenSold(
         uint256 indexed tokenId,
         uint256 oldPrice,
@@ -89,22 +22,17 @@ contract CryptoSoccrToken is ERC721 {
     );
 
     /// @dev Transfer event as defined in current draft of ERC721.
-    ///    ownership is assigned, including births.
+    /// ownership is assigned, including births.
     event Transfer(address from, address to, uint256 tokenId);
 
     /*** CONSTANTS ***/
 
     /// @notice Name and symbol of the non fungible token, as defined in ERC721.
-    string public constant NAME = "CryptoSoccr";
-    string public constant SYMBOL = "CryptoSoccrToken";
+    string public constant NAME = "SoccerPlayers";
+    string public constant SYMBOL = "SoccerPlayers";
 
-    uint256 private startingPrice = 0.001 ether;
+    uint256 private startingPrice = 10000000000000000000; // 100 ONEs
     uint256 private constant PROMO_CREATION_LIMIT = 5000;
-    uint256 private firstStepLimit =    0.053613 ether;
-    uint256 private firstStepMultiplier =    200;
-    uint256 private secondStepLimit = 0.564957 ether;
-    uint256 private secondStepMultiplier = 150;
-    uint256 private thirdStepMultiplier = 120;
 
     /*** STORAGE ***/
 
@@ -124,6 +52,9 @@ contract CryptoSoccrToken is ERC721 {
     // @dev A mapping from PlayerIDs to the price of the token.
     mapping (uint256 => uint256) private playerIndexToPrice;
 
+    // @dev A mapping from PlayerIDs to the number of transactions.
+    mapping (uint256 => uint256) private playerIndexToTxns;
+
     // The addresses of the accounts (or contracts) that can execute actions within each roles.
     address public ceoAddress;
 
@@ -140,13 +71,13 @@ contract CryptoSoccrToken is ERC721 {
     /*** ACCESS MODIFIERS ***/
     /// @dev Access modifier for CEO-only functionality
     modifier onlyCEO() {
-        require(msg.sender == ceoAddress);
+        require(msg.sender == ceoAddress, "sender must the ceo");
         _;
     }
 
     /// Access modifier for contract owner only functionality
     modifier onlyCLevel() {
-        require(msg.sender == ceoAddress);
+        require(msg.sender == ceoAddress, "sender must be a contract owner");
         _;
     }
 
@@ -166,7 +97,7 @@ contract CryptoSoccrToken is ERC721 {
         uint256 _tokenId
     ) public {
         // Caller must own token.
-        require(_owns(msg.sender, _tokenId));
+        require(_owns(msg.sender, _tokenId), "call must own the token");
 
         playerIndexToApproved[_tokenId] = _to;
 
@@ -182,7 +113,7 @@ contract CryptoSoccrToken is ERC721 {
 
     /// @dev Creates a new promo Player with the given name, with given _price and assignes it to an address.
     function createPromoPlayer(address _owner, string memory _name, uint256 _price, uint256 _internalPlayerId) public onlyCEO {
-        require(promoCreatedCount < PROMO_CREATION_LIMIT);
+        require(promoCreatedCount < PROMO_CREATION_LIMIT, "promo player creation cannot exceed limit");
 
         address playerOwner = _owner;
         if (playerOwner == address(0)) {
@@ -235,7 +166,7 @@ contract CryptoSoccrToken is ERC721 {
         returns (address owner)
     {
         owner = playerIndexToOwner[_tokenId];
-        require(owner != address(0));
+        require(owner != address(0), "owner should have valid address");
     }
 
     function payout(address _to) public onlyCLevel {
@@ -250,37 +181,29 @@ contract CryptoSoccrToken is ERC721 {
         uint256 sellingPrice = playerIndexToPrice[_tokenId];
 
         // Making sure token owner is not sending to self
-        require(oldOwner != newOwner);
+        require(oldOwner != newOwner, "cannot self purchase");
 
         // Safety check to prevent against an unexpected 0x0 default.
-        require(_addressNotNull(newOwner));
+        require(_addressNotNull(newOwner), "new owner should have a non-nil address");
 
         // Making sure sent amount is greater than or equal to the sellingPrice
-        require(msg.value >= sellingPrice);
+        require(msg.value >= sellingPrice, "purchase value must be greater than selling price");
 
-        uint256 payment = uint256(SafeMath.div(SafeMath.mul(sellingPrice, 94), 100));
+        uint256 payment = sellingPrice; // could cut commission later
         uint256 purchaseExcess = SafeMath.sub(msg.value, sellingPrice);
 
         // Update prices
-        if (sellingPrice < firstStepLimit) {
-            // first stage
-            playerIndexToPrice[_tokenId] = SafeMath.div(SafeMath.mul(sellingPrice, firstStepMultiplier), 94);
-        } else if (sellingPrice < secondStepLimit) {
-            // second stage
-            playerIndexToPrice[_tokenId] = SafeMath.div(SafeMath.mul(sellingPrice, secondStepMultiplier), 94);
-        } else {
-            // third stage
-            playerIndexToPrice[_tokenId] = SafeMath.div(SafeMath.mul(sellingPrice, thirdStepMultiplier), 94);
-        }
+        playerIndexToPrice[_tokenId] = SafeMath.add(sellingPrice, SafeMath.div(SafeMath.mul(sellingPrice, 15), 100));
 
         _transfer(oldOwner, newOwner, _tokenId);
         emit Snatch(_tokenId, oldOwner, newOwner);
 
         // Pay previous tokenOwner if owner is not contract
         if (oldOwner != address(this)) {
-            address(uint160(oldOwner)).transfer(payment); //(1-0.06)
+            address(uint160(oldOwner)).transfer(payment);
         }
 
+        playerIndexToTxns[_tokenId] = playerIndexToTxns[_tokenId] + 1;
         emit TokenSold(_tokenId, sellingPrice, playerIndexToPrice[_tokenId], oldOwner, newOwner, players[_tokenId].name);
 
         msg.sender.transfer(purchaseExcess);
@@ -290,10 +213,14 @@ contract CryptoSoccrToken is ERC721 {
         return playerIndexToPrice[_tokenId];
     }
 
+    function transactionCountOf(uint256 _tokenId) public view returns (uint256 price) {
+        return playerIndexToTxns[_tokenId];
+    }
+
     /// @dev Assigns a new address to act as the CEO. Only available to the current CEO.
     /// @param _newCEO The address of the new CEO
     function setCEO(address _newCEO) public onlyCEO {
-        require(_newCEO != address(0));
+        require(_newCEO != address(0), "new CEO address should be valid");
 
         ceoAddress = _newCEO;
     }
@@ -311,7 +238,7 @@ contract CryptoSoccrToken is ERC721 {
         address oldOwner = playerIndexToOwner[_tokenId];
 
         // Safety check to prevent against an unexpected 0x0 default.
-        require(_addressNotNull(newOwner));
+        require(_addressNotNull(newOwner), "new owner should have a valid address");
 
         // Making sure transfer is approved
         require(_approved(newOwner, _tokenId));
@@ -359,8 +286,8 @@ contract CryptoSoccrToken is ERC721 {
         address _to,
         uint256 _tokenId
     ) public {
-        require(_owns(msg.sender, _tokenId));
-        require(_addressNotNull(_to));
+        require(_owns(msg.sender, _tokenId), "sender should own the token to transfer");
+        require(_addressNotNull(_to), "transfer to address must be valid");
 
         _transfer(msg.sender, _to, _tokenId);
     }
@@ -375,9 +302,9 @@ contract CryptoSoccrToken is ERC721 {
         address _to,
         uint256 _tokenId
     ) public {
-        require(_owns(_from, _tokenId));
-        require(_approved(_to, _tokenId));
-        require(_addressNotNull(_to));
+        require(_owns(_from, _tokenId), "transfer from address must own the token");
+        require(_approved(_to, _tokenId), "transfer to address must be approved");
+        require(_addressNotNull(_to), "transfer to address must be valid");
 
         _transfer(_from, _to, _tokenId);
     }
@@ -403,7 +330,7 @@ contract CryptoSoccrToken is ERC721 {
 
         // It's probably never going to happen, 4 billion tokens are A LOT, but
         // let's just be 100% sure we never let this happen.
-        require(newPlayerId == uint256(uint32(newPlayerId)));
+        require(newPlayerId == uint256(uint32(newPlayerId)), "new player id must be valid");
 
         emit Birth(newPlayerId, _name, _owner);
 
@@ -445,4 +372,5 @@ contract CryptoSoccrToken is ERC721 {
         // Emit the transfer event.
         emit Transfer(_from, _to, _tokenId);
     }
+
 }
