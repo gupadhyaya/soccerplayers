@@ -31,7 +31,7 @@ contract SoccerPlayers is ERC721 {
     string public constant NAME = "SoccerPlayers";
     string public constant SYMBOL = "SoccerPlayers";
 
-    uint256 private startingPrice = 10000000000000000000; // 100 ONEs
+    uint256 private startingPrice = 10000000000000000000; // 10 ONEs
     uint256 private constant PROMO_CREATION_LIMIT = 5000;
 
     /*** STORAGE ***/

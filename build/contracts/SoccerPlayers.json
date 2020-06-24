@@ -24695,12 +24695,12 @@
         }
       },
       "links": {},
-      "address": "0x9d98Fdd9467C2cd5BD2b61c542a456915828622c",
-      "transactionHash": "0xb70ffd3ce2c8904056a29674a9ca1f312f0c7f6e846aa32bbf6351d3ee8c186d"
+      "address": "0x79444195b455d8731cc753649E0082E606d48334",
+      "transactionHash": "0xf43cf9dee7dcf1331a1d0143018d4a24a54dfa3aab9cbda015d399bd1545c14f"
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2020-06-23T20:44:17.858Z",
+  "updatedAt": "2020-06-24T01:41:18.444Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {
