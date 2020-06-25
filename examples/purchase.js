@@ -22,7 +22,7 @@ soccerPlayers.wallet.addByPrivateKey(
 const options = {
   gasPrice: process.env.GAS_PRICE,
   gasLimit: process.env.GAS_LIMIT,
-  value: 10000000000000000000, // 10 ONEs
+  value: 100000000000000000000, // 100 ONEs
 };
 const instance = soccerPlayers.methods;
 async function purchase(id) {

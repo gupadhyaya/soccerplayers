@@ -31,7 +31,7 @@ contract SoccerPlayers is ERC721 {
     string public constant NAME = "SoccerPlayers";
     string public constant SYMBOL = "SoccerPlayers";
 
-    uint256 private startingPrice = 10000000000000000000; // 10 ONEs
+    uint256 private startingPrice = 100000000000000000000; // 100 ONEs
     uint256 private constant PROMO_CREATION_LIMIT = 5000;
 
     /*** STORAGE ***/
@@ -191,7 +191,8 @@ contract SoccerPlayers is ERC721 {
         // Making sure sent amount is greater than or equal to the sellingPrice
         require(msg.value >= sellingPrice, "purchase value must be greater than selling price");
 
-        uint256 payment = sellingPrice; // could cut commission later
+        uint256 commission = SafeMath.div(SafeMath.mul(sellingPrice, 2), 100);
+        uint256 payment = SafeMath.sub(sellingPrice, commission);
         uint256 purchaseExcess = SafeMath.sub(msg.value, sellingPrice);
 
         // Update prices
@@ -203,6 +204,10 @@ contract SoccerPlayers is ERC721 {
         // Pay previous tokenOwner if owner is not contract
         if (oldOwner != address(this)) {
             address(uint160(oldOwner)).transfer(payment);
+        }
+        // Pay commission to ceo
+        if (ceoAddress != address(this)) {
+            address(uint160(ceoAddress)).transfer(commission);
         }
 
         playerIndexToTxns[_tokenId] = playerIndexToTxns[_tokenId] + 1;

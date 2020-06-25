@@ -2,7 +2,7 @@ var SoccerPlayers = artifacts.require("SoccerPlayers");
 
 module.exports = function () {
   async function purchase(id) {
-    let val = 10000000000000000000; // 10 ONEs
+    let val = 100000000000000000000; // 10 ONEs
     // let price = 30000000000
     SoccerPlayers.defaults({value: val});//, gasPrice: price})
     let instance = await SoccerPlayers.deployed();
