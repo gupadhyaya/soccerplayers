@@ -10,7 +10,7 @@ const hmy = new Harmony(
   }
 );
 const contractJson = require("../build/contracts/SoccerPlayers.json");
-const contractAddr = "0x16B729874BD8d54A1a3b5d2B0Ff344d3C6604eE0";
+const contractAddr = "0x393D128E70377A83E8f224e407844f85762435A6";
 
 const soccerPlayers = hmy.contracts.createContract(
   contractJson.abi,
@@ -37,6 +37,7 @@ async function display() {
     console.log("internalPlayerId", res.internalPlayerId);
     console.log("sellingPrice", res.sellingPrice);
     console.log("owner", res.owner);
+    console.log("transactions", res.transactionCount);
   }
 }
 async function createPlayers() {

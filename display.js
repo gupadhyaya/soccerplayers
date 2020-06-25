@@ -12,6 +12,7 @@ module.exports = function () {
       console.log("internalPlayerId", res.internalPlayerId);
       console.log("sellingPrice", res.sellingPrice);
       console.log("owner", res.owner);
+      console.log("transactions", res.transactionCount);
     }
   }
     display().then(() => {
