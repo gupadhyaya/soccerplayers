@@ -16,7 +16,7 @@ module.exports = function () {
       "Johan Cruyff",
       "Andres Iniesta",
     ];
-    for (i = 0; i < 3; i++) { //players.length
+    for (i = 0; i < players.length; i++) { //players.length
       let res = await instance.createPromoPlayer(myAddress, players[i], 0, i)
       console.log("created player: " + players[i] + ", tx hash: " + res.tx);
     }
@@ -32,6 +32,7 @@ module.exports = function () {
       console.log("internalPlayerId", res.internalPlayerId);
       console.log("sellingPrice", res.sellingPrice);
       console.log("owner", res.owner);
+      console.log("transactions", res.transactionCount);
     }
   }
   createPlayers().then(() => {

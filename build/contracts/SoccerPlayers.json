@@ -24897,12 +24897,12 @@
         }
       },
       "links": {},
-      "address": "0x79444195b455d8731cc753649E0082E606d48334",
-      "transactionHash": "0xf43cf9dee7dcf1331a1d0143018d4a24a54dfa3aab9cbda015d399bd1545c14f"
+      "address": "0x224802786fee2e0DAfCA627ee173f45FAdE69bE6",
+      "transactionHash": "0x46f8bf5fed6db917077b2f65567bbeb508868f8fbe9749f331968021e14fd2cb"
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2020-06-25T20:20:36.868Z",
+  "updatedAt": "2020-06-25T20:34:53.946Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

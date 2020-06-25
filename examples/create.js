@@ -10,7 +10,7 @@ const hmy = new Harmony(
   }
 );
 const contractJson = require("../build/contracts/SoccerPlayers.json");
-const contractAddr = "0x393D128E70377A83E8f224e407844f85762435A6";
+const contractAddr = "0x224802786fee2e0DAfCA627ee173f45FAdE69bE6";
 
 const soccerPlayers = hmy.contracts.createContract(
   contractJson.abi,
