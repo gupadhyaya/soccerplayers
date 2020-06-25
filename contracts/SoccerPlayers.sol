@@ -139,13 +139,15 @@ contract SoccerPlayers is ERC721 {
         string memory playerName,
         uint256 internalPlayerId,
         uint256 sellingPrice,
-        address owner
+        address owner,
+        uint256 transactionCount
     ) {
         Player storage player = players[_tokenId];
         playerName = player.name;
         internalPlayerId = player.internalPlayerId;
         sellingPrice = playerIndexToPrice[_tokenId];
         owner = playerIndexToOwner[_tokenId];
+        transactionCount = playerIndexToTxns[_tokenId];
     }
 
     function implementsERC721() public pure returns (bool) {
