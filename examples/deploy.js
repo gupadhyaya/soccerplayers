@@ -10,14 +10,14 @@ const hmy = new Harmony(
   }
 );
 const options = {
-  gasPrice: process.env.GAS_PRICE,
-  gasLimit: process.env.GAS_LIMIT,
+  gasPrice: process.env.GAS_PRICE, // 1000000000 (1 GWei)
+  gasLimit: process.env.GAS_LIMIT, // 103802 should be good
 };
 const contractJson = require("../build/contracts/SoccerPlayers.json");
 let soccerPlayers = hmy.contracts.createContract(contractJson.abi);
 
 soccerPlayers.wallet.addByPrivateKey(
-  "1f054c21a0f57ebc402c00e14bd1707ddf45542d4ed9989933dbefc4ea96ca68"
+  process.env.PRIVATE_KEY
 );
 
 async function deploy() {

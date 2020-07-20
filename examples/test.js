@@ -14,7 +14,7 @@ const contractAddr = "0xD8454584b5e60351e090Bdb5364FC739C9a29C4c";
 const contract = hmy.contracts.createContract(contractJson.abi, contractAddr);
 // needed for contractMethod.send
 contract.wallet.addByPrivateKey(
-  "1f054c21a0f57ebc402c00e14bd1707ddf45542d4ed9989933dbefc4ea96ca68"
+  process.env.PRIVATE_KEY
 );
 
 const options = {

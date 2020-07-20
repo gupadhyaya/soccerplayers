@@ -23,22 +23,31 @@ git clone https://github.com/gupadhyaya/soccerplayers.git
 npm install
 ```
 
-* Compile crypto soccer smart contract
+* Compile soccer player smart contract
 
 ```
 truffle compile
 ```
 
-* Deploy crypto soccer smart contract
+* Deploy soccer player smart contract. You will need a testnet funded account. Fund your harmony one address [here](https://harmony-faucet.ibriz.ai)
 
 ```
 truffle migrate --reset --network testnet
 ```
+or 
+```
+node examples/deploy.js
+```
 
-* Running an example that creates a player and displays the player information.
+* Create soccer players
 
 ```
-truffle exec ./test.js --network testnet
+node examples/create.js
+```
+
+* Purchase soccer players
+```
+node examples/purchase.js
 ```
 
 ## Disclaimer

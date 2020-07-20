@@ -17,7 +17,7 @@ const soccerPlayers = hmy.contracts.createContract(
   contractAddr
 );
 soccerPlayers.wallet.addByPrivateKey(
-  "08c89c31fb656ffab1093364b55232e22e58d650e8d53423e989e092af3d11ef"
+  process.env.PRIVATE_KEY
 );
 const options = {
   gasPrice: "0x3B9ACA00",

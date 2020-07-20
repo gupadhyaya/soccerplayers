@@ -16,9 +16,6 @@ const soccerPlayers = hmy.contracts.createContract(
   contractJson.abi,
   contractAddr
 );
-// soccerPlayers.wallet.addByPrivateKey(
-//   "1f054c21a0f57ebc402c00e14bd1707ddf45542d4ed9989933dbefc4ea96ca68"
-// );
 
 const options = {
   gasPrice: process.env.GAS_PRICE,
